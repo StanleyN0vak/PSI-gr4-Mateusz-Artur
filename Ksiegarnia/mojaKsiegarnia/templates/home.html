@@ -1,0 +1,11 @@
+{% extends "index.html" %} {% block title %} Strona domowa {% endblock %}
+{% block content %}
+<h2>Lista książek:</h2>
+<ul>
+    {% for x in ksiazki %}
+    <li>
+        {{ x.tytul }}: {{ x.autor }}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
