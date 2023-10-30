@@ -64,3 +64,7 @@ class Adres(models.Model):
     nrLokalu = models.CharField(max_length=45)
     miejscowosc = models.CharField(max_length=45)
     ulica = models.CharField(max_length=45)
+
+
+def __str__(self):
+    return self.choice_text
