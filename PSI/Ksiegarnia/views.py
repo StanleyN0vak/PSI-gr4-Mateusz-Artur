@@ -5,5 +5,5 @@ from django.core.exceptions import PermissionDenied
 
 
 def index(request):
-    """homepage of learning logs"""
+    """homepage"""
     return render(request,'Ksiegarnia/index.html')
