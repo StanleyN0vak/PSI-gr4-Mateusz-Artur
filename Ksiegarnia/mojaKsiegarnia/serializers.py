@@ -1,8 +1,7 @@
 from rest_framework import serializers
 import datetime
 import string
-from mojaKsiegarnia.models import Ksiazka, Klient, Autor, Adres, Gatunek, Wydawnictwo, Opinie, Zamowienie, \
-    StatusZamowienia, SzczegolyZamowienia, StatusKsiazka
+from mojaKsiegarnia.models import *
 
 
 class KsiazkaSerializer(serializers.ModelSerializer):
