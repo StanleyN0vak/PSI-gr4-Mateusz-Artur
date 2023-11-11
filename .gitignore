@@ -1,0 +1,6 @@
+venv/
+virtualenv/
+.idea/
+.venv
+__pychace__/
+
