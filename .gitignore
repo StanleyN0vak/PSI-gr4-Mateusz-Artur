@@ -1,2 +1,5 @@
 venv/
 virtualenv/
+.venv
+.virualenv
+
