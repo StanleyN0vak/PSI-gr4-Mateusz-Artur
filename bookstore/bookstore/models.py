@@ -20,31 +20,6 @@ class Client(models.Model):
     address_id = models.ForeignKey(Address, on_delete=models.CASCADE)
 
 
-class OrderDetails(models.Model):
-    quantity = models.IntegerField()
-    status = models.CharField(max_length=50)
-    total_price = models.DecimalField(10, 2)
-    book_id = models.ForeignKey('Book', on_delete=models.CASCADE)
-
-
-class Order(models.Model):
-    order_date = models.DateTimeField(auto_now_add=True)
-    client_id = models.ForeignKey(Client, on_delete=models.CASCADE)
-    order_details_id = models.ForeignKey(OrderDetails, on_delete=models.CASCADE)
-
-
-class Book(models.Model):
-    title = models.CharField(max_length=255)
-    publication_date = models.DateField()
-    isbn = models.CharField(max_length=20)
-    price = models.DecimalField(10, 2)
-    number_of_pages = models.IntegerField()
-    status = models.CharField(max_length=50)
-    publisher_id = models.ForeignKey('Publisher', on_delete=models.CASCADE)
-    genre_id = models.ForeignKey('Genre', on_delete=models.CASCADE)
-    author_id = models.ForeignKey('Author', on_delete=models.CASCADE)
-
-
 class Author(models.Model):
     author_name = models.CharField(max_length=255)
     author_last_name = models.CharField(max_length=255)
@@ -57,6 +32,31 @@ class Genre(models.Model):
 
 class Publisher(models.Model):
     publisher_name = models.CharField(max_length=255)
+
+
+class Book(models.Model):
+    title = models.CharField(max_length=255)
+    publication_date = models.DateField()
+    isbn = models.CharField(max_length=20)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    number_of_pages = models.IntegerField()
+    status = models.CharField(max_length=50)
+    publisher_id = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+    genre_id = models.ForeignKey(Genre, on_delete=models.CASCADE)
+    author_id = models.ForeignKey(Author, on_delete=models.CASCADE)
+
+
+class OrderDetails(models.Model):
+    quantity = models.IntegerField()
+    status = models.CharField(max_length=50)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+
+class Order(models.Model):
+    order_date = models.DateTimeField(auto_now_add=True)
+    client_id = models.ForeignKey(Client, on_delete=models.CASCADE)
+    order_details = models.ForeignKey(OrderDetails, on_delete=models.CASCADE)
 
 
 class Opinion(models.Model):
