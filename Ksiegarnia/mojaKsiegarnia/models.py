@@ -2,14 +2,11 @@ from django.db import models
 
 
 # Create your models here.
-class Ksiazka(models.Model):
-    tytul = models.CharField(max_length=45)
-    autor = models.CharField(max_length=45)
-    dataPublikacji = models.DateField()
-
-
 class Gatunek(models.Model):
     nazwa = models.CharField(max_length=45)
+
+    def __str__(self):
+        return self.nazwa
 
 
 class Autor(models.Model):
@@ -20,6 +17,18 @@ class Autor(models.Model):
 
 class Wydawnictwo(models.Model):
     nazwa = models.CharField(max_length=45)
+
+
+class Ksiazka(models.Model):
+    tytul: str = models.CharField(max_length=45)
+    autor = models.CharField(max_length=45)
+    dataPublikacji = models.DateField()
+
+    class Meta:
+        ordering = ('tytul',)
+
+    def __str__(self):
+        return self.tytul
 
 
 class Opinie(models.Model):
