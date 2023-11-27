@@ -51,6 +51,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+REST_FRAMEWORK = {
+        'DEFAULT_PREMISSION_CLASSES': [
+            'rest_framework.premission.IsAuthenticated',
+        ],
+        'DEFAULT_AUTHENTICATION_CLASSES': [
+            'rest_framework.authentication.SessionAuthentication',
+            'rest_framework.authentication.TokenAuthentication',
+        ],
+}
+
 ROOT_URLCONF = 'Ksiegarnia.urls'
 
 TEMPLATES = [

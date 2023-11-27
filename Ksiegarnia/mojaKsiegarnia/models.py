@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 class Gatunek(models.Model):
-    nazwa = models.CharField(max_length=45)
+    nazwa: str = models.CharField(max_length=45)
 
     def __str__(self):
         return self.nazwa
@@ -21,7 +21,7 @@ class Wydawnictwo(models.Model):
 
 class Ksiazka(models.Model):
     tytul: str = models.CharField(max_length=45)
-    autor = models.CharField(max_length=45)
+    autor: str = models.CharField(max_length=45)
     dataPublikacji = models.DateField()
 
     class Meta:

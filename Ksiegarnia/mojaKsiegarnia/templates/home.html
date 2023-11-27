@@ -2,9 +2,9 @@
 {% block content %}
 <h2>Lista książek:</h2>
 <ul>
-    {% for x in ksiazki %}
+    {% for ksiazka in Ksiazka %}
     <li>
-        {{ x.tytul }}: {{ x.autor }}
+        {{ ksiazka.tytul }}: {{ ksiazka.autor }}
     </li>
     {% endfor %}
 </ul>

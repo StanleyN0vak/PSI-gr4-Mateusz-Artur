@@ -10,6 +10,7 @@
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mojaKsiegarnia/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/mojaKsiegarnia/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mojaKsiegarnia/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/mojaKsiegarnia/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mojaKsiegarnia/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/mojaKsiegarnia/templates/home.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mojaKsiegarnia/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mojaKsiegarnia/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mojaKsiegarnia/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mojaKsiegarnia/views.py" afterDir="false" />
     </list>
@@ -83,7 +84,8 @@
       <workItem from="1698649724698" duration="1321000" />
       <workItem from="1698662053681" duration="5019000" />
       <workItem from="1699267060200" duration="3111000" />
-      <workItem from="1699872778920" duration="4068000" />
+      <workItem from="1699872778920" duration="4135000" />
+      <workItem from="1701081597494" duration="4511000" />
     </task>
     <servers />
   </component>
