@@ -1,5 +1,4 @@
 from django.db import models
-import django_filters
 from django.contrib.auth.models import User
 
 
@@ -25,7 +24,7 @@ class Client(models.Model):
     password = models.CharField(max_length=255)
     registration_date = models.DateTimeField(auto_now_add=True)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 
 class Author(models.Model):
@@ -46,12 +45,22 @@ class Publisher(models.Model):
 
 
 class Book(models.Model):
+    AVAILABLE = 'AV'
+    UNAVAILABLE = 'UN'
+    STATUS_CHOICES = [
+        (AVAILABLE, 'Dostępna'),
+        (UNAVAILABLE, 'Niedostępna'),
+    ]
     title = models.CharField(max_length=255)
     publication_date = models.DateField()
     isbn = models.CharField(max_length=20)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     number_of_pages = models.IntegerField()
-    status = models.CharField(max_length=50)
+    status = models.CharField(
+        max_length=2,
+        choices=STATUS_CHOICES,
+        default=AVAILABLE,
+    )
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
@@ -68,7 +77,7 @@ class Order(models.Model):
     order_date = models.DateTimeField(auto_now_add=True)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     order_details = models.ForeignKey(OrderDetails, on_delete=models.CASCADE)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 class Opinion(models.Model):
     rating = models.IntegerField()
