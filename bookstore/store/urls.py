@@ -1,15 +1,18 @@
-from django.urls import path, re_path, include
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .import views
-from .views import HelloWorldView
+from .views import *
 
 router = DefaultRouter()
-router.register(r'Address', views.AddressViewSet, basename='Address')
-
+router.register(r'addresses', AddressViewSet)
+router.register(r'clients', ClientViewSet)
+router.register(r'authors', AuthorViewSet)
+router.register(r'genres', GenreViewSet)
+router.register(r'publishers', PublisherViewSet)
+router.register(r'books', BookViewSet)
+router.register(r'orderdetails', OrderDetailsViewSet)
+router.register(r'orders', OrderViewSet)
+router.register(r'opinions', OpinionViewSet)
 
 urlpatterns = [
-    path('', views.contents),
-    re_path(r'api-auth/', include('rest_framework.urls')),
-    re_path(r'api/', include(router.urls)),
-    path('hello/', HelloWorldView.as_view(), name='hello_world'),
+    path('', include(router.urls)),
 ]

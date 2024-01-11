@@ -9,6 +9,10 @@ class Address(models.Model):
     street = models.CharField(max_length=255)
     house_number = models.CharField(max_length=10)
 
+    def __str__(self):
+        return self.country
+
+
 
 class Client(models.Model):
     first_name = models.CharField(max_length=255)
@@ -61,6 +65,6 @@ class Order(models.Model):
 
 class Opinion(models.Model):
     rating = models.IntegerField()
-    comment = models.CharField(max_length=200)
+    comment = models.TextField(null=True)
     publication_date = models.DateField(auto_now_add=True)
     book_id = models.ForeignKey(Book, on_delete=models.CASCADE)

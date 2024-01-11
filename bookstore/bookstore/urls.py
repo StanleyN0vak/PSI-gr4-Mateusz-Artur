@@ -5,8 +5,6 @@ from .import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('store/', include('store.urls')),
-    path('about', views.about),
-    path('', views.homepage),
-    path('bookstore', views.bookstore)
+    path('store/', include('store.urls'))
+
 ]
