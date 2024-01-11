@@ -1,10 +1,7 @@
 from django.db import models
 import django_filters
+from django.contrib.auth.models import User
 
-
-class CustomFilter(django_filters.FilterSet):
-    date = django_filters.DateFromToRangeFilter()
-    number = django_filters.RangeFilter()
 
 
 class Address(models.Model):
@@ -28,12 +25,16 @@ class Client(models.Model):
     password = models.CharField(max_length=255)
     registration_date = models.DateTimeField(auto_now_add=True)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class Author(models.Model):
     author_name = models.CharField(max_length=255)
     author_last_name = models.CharField(max_length=255)
     alias = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return self.author_name + ' ' + self.author_last_name
 
 
 class Genre(models.Model):
@@ -67,7 +68,7 @@ class Order(models.Model):
     order_date = models.DateTimeField(auto_now_add=True)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     order_details = models.ForeignKey(OrderDetails, on_delete=models.CASCADE)
-
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Opinion(models.Model):
     rating = models.IntegerField()

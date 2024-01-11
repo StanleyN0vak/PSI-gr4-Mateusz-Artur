@@ -1,9 +1,19 @@
 import django_filters
-from .models import OrderDetails
+from .models import OrderDetails, Order
 
 class OrderDetailsFilter(django_filters.FilterSet):
-    number = django_filters.RangeFilter()
+    total_price = django_filters.RangeFilter()
 
     class Meta:
         model = OrderDetails
         fields = ['total_price']
+
+class OrderFilter(django_filters.FilterSet):
+    start_date = django_filters.DateTimeFilter(field_name="order_date", lookup_expr='gte')
+    end_date = django_filters.DateTimeFilter(field_name="order_date", lookup_expr='lte')
+
+    class Meta:
+        model = Order
+        fields = ['order_date']
+
+
