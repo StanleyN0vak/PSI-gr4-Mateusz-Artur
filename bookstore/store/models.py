@@ -1,4 +1,10 @@
 from django.db import models
+import django_filters
+
+
+class CustomFilter(django_filters.FilterSet):
+    date = django_filters.DateFromToRangeFilter()
+    number = django_filters.RangeFilter()
 
 
 class Address(models.Model):

@@ -4,6 +4,7 @@ from .serializers import *
 from rest_framework.permissions import IsAdminUser
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
+from filters import OrderDetailsFilter
 
 
 class UserListCreateView(generics.ListCreateAPIView):
@@ -59,8 +60,9 @@ class OrderDetailsViewSet(viewsets.ModelViewSet):
     queryset = OrderDetails.objects.all()
     serializer_class = OrderDetailsSerializer
     permission_classes = [IsAdminUser]
-    filter_backends = [OrderingFilter]
+    filter_backends = [OrderingFilter, OrderDetailsFilter]
     filterset_fields = ['order_date']
+    filterset_class = ['total_price']
 
 
 class OrderViewSet(viewsets.ModelViewSet):
