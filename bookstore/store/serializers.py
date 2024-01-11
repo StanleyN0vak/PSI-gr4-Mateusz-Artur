@@ -28,7 +28,6 @@ class AddressSerializer(serializers.ModelSerializer):
 
 
 class ClientSerializer(serializers.ModelSerializer):
-    address = serializers.SlugRelatedField(slug_field='city', queryset=Address.objects.all())
     class Meta:
         model = Client
         fields = '__all__'
@@ -66,51 +65,54 @@ class PublisherSerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.HyperlinkedModelSerializer):
-    author = serializers.HyperlinkedRelatedField(
-        many=True,
-        read_only=True,
-        view_name='author_name'
-    )
+    author = serializers.SlugRelatedField(slug_field='author_name', queryset=Author.objects.all())
 
-    genre = serializers.HyperlinkedRelatedField(
-        many=True,
-        read_only=True,
-        view_name='genre_name'
-    )
-    publisher = serializers.HyperlinkedRelatedField(
-        many=True,
-        read_only=True,
-        view_name='publisher_name'
-    )
+    genre = serializers.SlugRelatedField(slug_field='genre_name', queryset=Genre.objects.all())
+
+    publisher = serializers.SlugRelatedField(slug_field='publisher_name', queryset=Publisher.objects.all())
+
     class Meta:
         model = Book
         fields = '__all__'
 
 
 class OrderDetailsSerializer(serializers.ModelSerializer):
-    book = serializers.HyperlinkedRelatedField(
-        many=True,
-        read_only=True,
-        view_name='title'
-    )
-
+    book = serializers.SlugRelatedField(slug_field='title', queryset=Book.objects.all())
     class Meta:
         model = OrderDetails
         fields = '__all__'
 
+    def create(self, validated_data):
+        order_details = OrderDetails.objects.create(**validated_data)
+        return order_details
+
+    def update(self, instance, validated_data):
+        instance.quantity = validated_data.get('quantity', instance.quantity)
+        instance.status = validated_data.get('status', instance.status)
+        instance.total_price = validated_data.get('total_price', instance.total_price)
+        instance.book = validated_data.get('book', instance.book)
+        instance.save()
+        return instance
+
+    def validate(self, data):
+        # Sprawdź, czy ilość jest większa lub równa 1
+        if data['quantity'] < 1:
+            raise serializers.ValidationError({
+                'quantity': 'Ilość musi być większa lub równa 1.'
+            })
+
+        # Sprawdź, czy cena jest dodatnia
+        if data['total_price'] <= 0:
+            raise serializers.ValidationError({
+                'total_price': 'Cena musi być dodatnia.'
+            })
+
+        return data
 
 class OrderSerializer(serializers.ModelSerializer):
-    client = serializers.HyperlinkedRelatedField(
-        many=True,
-        read_only=True,
-        view_name='first_name'
-    )
 
-    order_details = serializers.HyperlinkedRelatedField(
-        many=True,
-        read_only=True,
-        view_name='total_price'
-    )
+    order_details = serializers.SlugRelatedField(slug_field='order_number', queryset=OrderDetails.objects.all())
+
 
     class Meta:
         model = Order
@@ -136,12 +138,10 @@ class OrderSerializer(serializers.ModelSerializer):
         return instance
 
 
+
 class OpinionSerializer(serializers.ModelSerializer):
-    book = serializers.HyperlinkedRelatedField(
-        many=True,
-        read_only=True,
-        view_name='title'
-    )
+    book = serializers.SlugRelatedField(slug_field='title', queryset=Book.objects.all())
+
     class Meta:
         model = Opinion
         fields = '__all__'
