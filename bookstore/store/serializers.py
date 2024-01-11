@@ -1,6 +1,13 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 from .models import *
 from datetime import date
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email']
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -21,6 +28,7 @@ class AddressSerializer(serializers.ModelSerializer):
 
 
 class ClientSerializer(serializers.ModelSerializer):
+    address = serializers.SlugRelatedField(slug_field='city', queryset=Address.objects.all())
     class Meta:
         model = Client
         fields = '__all__'
@@ -57,19 +65,53 @@ class PublisherSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class BookSerializer(serializers.ModelSerializer):
+class BookSerializer(serializers.HyperlinkedModelSerializer):
+    author = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='author_name'
+    )
+
+    genre = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='genre_name'
+    )
+    publisher = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='publisher_name'
+    )
     class Meta:
         model = Book
         fields = '__all__'
 
 
 class OrderDetailsSerializer(serializers.ModelSerializer):
+    book = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='title'
+    )
+
     class Meta:
         model = OrderDetails
         fields = '__all__'
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    client = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='first_name'
+    )
+
+    order_details = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='total_price'
+    )
+
     class Meta:
         model = Order
         fields = '__all__'
@@ -95,6 +137,12 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class OpinionSerializer(serializers.ModelSerializer):
+    book = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='title'
+    )
     class Meta:
         model = Opinion
         fields = '__all__'
+

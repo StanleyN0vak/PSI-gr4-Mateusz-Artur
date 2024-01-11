@@ -15,4 +15,5 @@ router.register(r'opinions', OpinionViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('users/', UserListCreateView.as_view(), name='user-list-create')
 ]

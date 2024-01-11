@@ -21,13 +21,13 @@ class Client(models.Model):
     phone_number = models.CharField(max_length=20)
     password = models.CharField(max_length=255)
     registration_date = models.DateTimeField(auto_now_add=True)
-    address_id = models.ForeignKey(Address, on_delete=models.CASCADE)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
 
 
 class Author(models.Model):
     author_name = models.CharField(max_length=255)
     author_last_name = models.CharField(max_length=255)
-    alias = models.CharField(max_length=255)
+    alias = models.CharField(max_length=255, null=True, blank=True)
 
 
 class Genre(models.Model):
@@ -45,9 +45,9 @@ class Book(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     number_of_pages = models.IntegerField()
     status = models.CharField(max_length=50)
-    publisher_id = models.ForeignKey(Publisher, on_delete=models.CASCADE)
-    genre_id = models.ForeignKey(Genre, on_delete=models.CASCADE)
-    author_id = models.ForeignKey(Author, on_delete=models.CASCADE)
+    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
 
 
 class OrderDetails(models.Model):
@@ -59,7 +59,7 @@ class OrderDetails(models.Model):
 
 class Order(models.Model):
     order_date = models.DateTimeField(auto_now_add=True)
-    client_id = models.ForeignKey(Client, on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
     order_details = models.ForeignKey(OrderDetails, on_delete=models.CASCADE)
 
 
@@ -67,4 +67,4 @@ class Opinion(models.Model):
     rating = models.IntegerField()
     comment = models.TextField(null=True)
     publication_date = models.DateField(auto_now_add=True)
-    book_id = models.ForeignKey(Book, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
