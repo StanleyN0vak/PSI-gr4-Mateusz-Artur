@@ -1,10 +1,17 @@
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, mixins
 from .models import *
 from .serializers import *
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 from .filters import OrderDetailsFilter, OrderFilter
+
+
+class ReadOnlyUserViewSet(mixins.RetrieveModelMixin,
+                          mixins.ListModelMixin,
+                          viewsets.GenericViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
 class UserListCreateView(generics.ListCreateAPIView):
@@ -27,6 +34,9 @@ class ClientViewSet(viewsets.ModelViewSet):
     filter_backends = [OrderingFilter]
     ordering_fields = ['author_last_name']
     permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class AuthorViewSet(viewsets.ModelViewSet):
@@ -71,6 +81,7 @@ class OrderDetailsViewSet(viewsets.ModelViewSet):
     filterset_class = OrderDetailsFilter
     permission_classes = [IsAuthenticated]
 
+
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
@@ -78,6 +89,10 @@ class OrderViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_class = OrderFilter
     permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 
 class OpinionViewSet(viewsets.ModelViewSet):
     queryset = Opinion.objects.all()

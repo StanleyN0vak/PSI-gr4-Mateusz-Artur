@@ -96,7 +96,7 @@ class OrderDetails(models.Model):
     )
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    order_number = models.CharField(max_length=255)
+    order_number = models.IntegerField(null=True)
 
 
 class Order(models.Model):

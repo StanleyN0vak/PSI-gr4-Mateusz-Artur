@@ -113,30 +113,9 @@ class OrderSerializer(serializers.ModelSerializer):
 
     order_details = serializers.SlugRelatedField(slug_field='order_number', queryset=OrderDetails.objects.all())
 
-
     class Meta:
         model = Order
         fields = '__all__'
-
-    def validate_order_date(self, value):
-        if value > date.today():
-            raise serializers.ValidationError("Data zamówienia nie może być w przyszłości.")
-        return value
-
-    def create(self, validated_data):
-        user = self.context['request'].user
-        order = Order.objects.create(user=user, **validated_data)
-        return order
-
-    def update(self, instance, validated_data):
-
-        user = self.context['request'].user
-        instance.user = user
-        instance.order_date = validated_data.get('order_date', instance.order_date)
-        instance.other_field = validated_data.get('other_field', instance.other_field)
-        instance.save()
-        return instance
-
 
 
 class OpinionSerializer(serializers.ModelSerializer):
