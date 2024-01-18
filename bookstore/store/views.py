@@ -25,6 +25,12 @@ class AddressViewSet(viewsets.ModelViewSet):
     serializer_class = AddressSerializer
     permission_classes = [IsAdminUser]
 
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
+
 
 
 class ClientViewSet(viewsets.ModelViewSet):
@@ -46,6 +52,13 @@ class AuthorViewSet(viewsets.ModelViewSet):
     filterset_fields = ['author_last_name']
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
+
+
 
 class GenreViewSet(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
@@ -54,6 +67,12 @@ class GenreViewSet(viewsets.ModelViewSet):
     ordering_fields = ['genre_name']
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
+
 
 class PublisherViewSet(viewsets.ModelViewSet):
     queryset = Publisher.objects.all()
@@ -61,6 +80,12 @@ class PublisherViewSet(viewsets.ModelViewSet):
     filter_backends = [OrderingFilter]
     ordering_fields = ['publisher_name']
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
 
 
 class BookViewSet(viewsets.ModelViewSet):
@@ -71,6 +96,12 @@ class BookViewSet(viewsets.ModelViewSet):
     ordering_fields = ['publication_date', 'price']
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
+
 class OpinionViewSet(viewsets.ModelViewSet):
     queryset = Opinion.objects.all()
     serializer_class = OpinionSerializer
@@ -78,9 +109,21 @@ class OpinionViewSet(viewsets.ModelViewSet):
     ordering_fields = ['rating']
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
+
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     filter_backends = [OrderingFilter]
     ordering_fields = ['order_date']
     permission_classes = [IsAuthenticated]
+
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
