@@ -4,13 +4,13 @@ from .models import *
 from datetime import date
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'password']
 
 
-class AddressSerializer(serializers.ModelSerializer):
+class AddressSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Address
         fields = '__all__'
@@ -27,7 +27,7 @@ class AddressSerializer(serializers.ModelSerializer):
         instance.house_number = validated_data.get('house_number', instance.house_number)
 
 
-class ClientSerializer(serializers.ModelSerializer):
+class ClientSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Client
         fields = '__all__'
@@ -46,19 +46,19 @@ class ClientSerializer(serializers.ModelSerializer):
         return instance
 
 
-class AuthorSerializer(serializers.ModelSerializer):
+class AuthorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Author
         fields = '__all__'
 
 
-class GenreSerializer(serializers.ModelSerializer):
+class GenreSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Genre
         fields = '__all__'
 
 
-class PublisherSerializer(serializers.ModelSerializer):
+class PublisherSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Publisher
         fields = '__all__'
@@ -75,53 +75,17 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
         model = Book
         fields = '__all__'
 
-
-class OrderDetailsSerializer(serializers.ModelSerializer):
-    book = serializers.SlugRelatedField(slug_field='title', queryset=Book.objects.all())
-    class Meta:
-        model = OrderDetails
-        fields = '__all__'
-
-    def create(self, validated_data):
-        order_details = OrderDetails.objects.create(**validated_data)
-        return order_details
-
-    def update(self, instance, validated_data):
-        instance.quantity = validated_data.get('quantity', instance.quantity)
-        instance.status = validated_data.get('status', instance.status)
-        instance.total_price = validated_data.get('total_price', instance.total_price)
-        instance.book = validated_data.get('book', instance.book)
-        instance.save()
-        return instance
-
-    def validate(self, data):
-        # Sprawdź, czy ilość jest większa lub równa 1
-        if data['quantity'] < 1:
-            raise serializers.ValidationError({
-                'quantity': 'Ilość musi być większa lub równa 1.'
-            })
-
-        # Sprawdź, czy cena jest dodatnia
-        if data['total_price'] <= 0:
-            raise serializers.ValidationError({
-                'total_price': 'Cena musi być dodatnia.'
-            })
-
-        return data
-
-class OrderSerializer(serializers.ModelSerializer):
-
-    order_details = serializers.SlugRelatedField(slug_field='order_number', queryset=OrderDetails.objects.all())
-
-    class Meta:
-        model = Order
-        fields = '__all__'
-
-
-class OpinionSerializer(serializers.ModelSerializer):
+class OpinionSerializer(serializers.HyperlinkedModelSerializer):
     book = serializers.SlugRelatedField(slug_field='title', queryset=Book.objects.all())
 
     class Meta:
         model = Opinion
+        fields = '__all__'
+
+class OrderSerializer(serializers.HyperlinkedModelSerializer):
+
+    client = serializers.SlugRelatedField(queryset=Client.objects.all(), slug_field='last_name')
+    class Meta:
+        model = Order
         fields = '__all__'
 

@@ -4,7 +4,7 @@ from .serializers import *
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
-from .filters import OrderDetailsFilter, OrderFilter
+from .filters import OrderFilter
 
 
 class ReadOnlyUserViewSet(mixins.RetrieveModelMixin,
@@ -71,32 +71,16 @@ class BookViewSet(viewsets.ModelViewSet):
     ordering_fields = ['publication_date', 'price']
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-
-class OrderDetailsViewSet(viewsets.ModelViewSet):
-    queryset = OrderDetails.objects.all()
-    serializer_class = OrderDetailsSerializer
-    permission_classes = [IsAdminUser]
-    filter_backends = [OrderingFilter, DjangoFilterBackend]
-    filterset_fields = ['order_date']
-    filterset_class = OrderDetailsFilter
-    permission_classes = [IsAuthenticated]
-
-
-class OrderViewSet(viewsets.ModelViewSet):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
-    permission_classes = [IsAdminUser]
-    filter_backends = [DjangoFilterBackend]
-    filterset_class = OrderFilter
-    permission_classes = [IsAuthenticated]
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
-
-
 class OpinionViewSet(viewsets.ModelViewSet):
     queryset = Opinion.objects.all()
     serializer_class = OpinionSerializer
     filter_backends = [OrderingFilter]
     ordering_fields = ['rating']
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    filter_backends = [OrderingFilter]
+    ordering_fields = ['order_date']
+    permission_classes = [IsAuthenticated]

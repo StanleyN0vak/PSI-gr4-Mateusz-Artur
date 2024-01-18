@@ -78,36 +78,29 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
-
-class OrderDetails(models.Model):
-    PENDING = 'PD'
-    COMPLETED = 'CD'
-    SHIPPED = 'SD'
-    STATUS_CHOICES = [
-        (PENDING, 'W trakcie'),
-        (COMPLETED, 'Dostarczono'),
-        (SHIPPED, "Wysłano")
-    ]
-    quantity = models.IntegerField()
-    status = models.CharField(
-        max_length=3,
-        choices=STATUS_CHOICES,
-        default=PENDING,
-    )
-    total_price = models.DecimalField(max_digits=10, decimal_places=2)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    order_number = models.IntegerField(null=True)
-
-
-class Order(models.Model):
-    order_date = models.DateTimeField(auto_now_add=True)
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    order_details = models.ForeignKey(OrderDetails, on_delete=models.CASCADE)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
-
 class Opinion(models.Model):
     rating = models.IntegerField()
     comment = models.TextField(null=True)
     publication_date = models.DateField(auto_now_add=True)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+class Order(models.Model):
+    PENDING = 'PG'
+    COMPLETED = 'CD'
+    SHIPPED = 'SD'
+    STATUS_CHOICES = [
+        (PENDING, 'Kompletowane'),
+        (COMPLETED, 'Dostarczono'),
+        (SHIPPED, "Wysłano")
+    ]
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    order_date = models.DateTimeField(auto_now_add=True)
+    book = models.ForeignKey(Book, null=True, on_delete=models.CASCADE)
+    quantity = models.IntegerField(null=True)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    order_number = models.IntegerField(null=True)
+    status = models.CharField(
+        max_length=3,
+        choices=STATUS_CHOICES,
+        default=PENDING,
+    )

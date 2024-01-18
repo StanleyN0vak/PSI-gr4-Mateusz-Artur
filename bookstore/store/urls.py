@@ -9,9 +9,8 @@ router.register(r'authors', AuthorViewSet)
 router.register(r'genres', GenreViewSet)
 router.register(r'publishers', PublisherViewSet)
 router.register(r'books', BookViewSet)
-router.register(r'orderdetails', OrderDetailsViewSet)
-router.register(r'orders', OrderViewSet)
 router.register(r'opinions', OpinionViewSet)
+router.register(r'order', OrderViewSet)
 router.register(r'usersview', ReadOnlyUserViewSet)
 
 urlpatterns = [
