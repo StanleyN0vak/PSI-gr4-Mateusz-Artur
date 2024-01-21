@@ -4,4 +4,4 @@ Artur Sutuła
 
 # Model bazy danych
 
-![](db_schema.png?raw=true)
+![Database Schema](db_schema.png)
