@@ -1,0 +1,68 @@
+1. Dodanie wydawcy
+
+mutation {
+  createPublisher(name: "Helion", address: "Gdzieś w Polsce") {
+    publisher {
+      id
+      name
+      address
+    }
+  }
+}
+
+2.  Edycja Autora
+
+mutation {
+  updateAuthor(id: 2, name: "Test", bio: "Test") {
+    author {
+      id
+      name
+      bio
+    }
+  }
+}
+
+3. Wykasowanie ksiazki
+
+mutation {
+  deleteBook(id: 1) {
+    bookId
+  }
+}
+
+4.DOdanie ksiazki
+
+mutation {
+  createBook(
+    title: "Testowa Ksiazka"
+    publishedDate: "2000-12-12"
+    authorId: 1
+    publisherId: 2
+  ) {
+    book {
+      id
+      title
+      publishedDate
+      author {
+        id
+        name
+      }
+      publisher {
+        id
+        name
+      }
+    }
+  }
+}
+
+5.Aktualizacja adresu wydawcy
+
+mutation {
+  updatePublisher(id: 6, address: "ul. Kościuszki 1c 44-100 Gliwice, Poland") {
+    publisher {
+      id
+      name
+      address
+    }
+  }
+}
