@@ -1,0 +1,73 @@
+1.Wyswietlenie ksiazek wraz z informacja o imieniu autora oraz nazwie wydawcy
+
+query {
+  books {
+    id
+    title
+    publishedDate
+    author {
+      id
+      name
+    }
+    publisher {
+      id
+      name
+    }
+  }
+}
+
+
+
+2.Wyswietlenie wydawcow
+
+query {
+  publishers {
+    id
+    name
+    address
+  }
+}
+
+3.Wyswietlenie autorow
+
+query {
+  authors {
+    id
+    name
+    bio
+  }
+}
+
+4.Wyswietlenie ksiazki po id wraz z jej autorem i wydawca
+
+query {
+  book(id: 1) {
+    id
+    title
+    publishedDate
+    author {
+      id
+      name
+    }
+    publisher {
+      id
+      name
+    }
+  }
+}
+
+
+5.Wywołanie autora po id wraz z jego ksiazkami
+
+
+query {
+  author(id: 1) {
+    id
+    name
+    bio
+    bookSet {
+      id
+      title
+    }
+  }
+}
